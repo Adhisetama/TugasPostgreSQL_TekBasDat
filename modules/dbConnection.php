@@ -1,9 +1,9 @@
 <?php
 
 $host = '127.0.0.1';
-$dbname = 'mydb';
-$user = 'azka';
-$password = 'demikunam123';
+$dbname = 'dbname';
+$user = 'username';
+$password = 'password';
 
 try {
     $pdo = new PDO("pgsql:host=$host;dbname=$dbname", $user, $password);
