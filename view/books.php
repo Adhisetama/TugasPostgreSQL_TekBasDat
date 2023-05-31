@@ -25,7 +25,7 @@
             <a class="nav-link" href="./">Cabang Toko</a>
         </li>
     <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="">Daftar Buku</a>
+        <a class="nav-link active" aria-current="page" href="#">Daftar Buku</a>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="./authors.php">Daftar Penulis</a>
@@ -58,7 +58,7 @@
 
         <div class="col-5">
             <?php
-                [ $selectedBranch, $selectedStaffs, $selectedBooks ] = [ null, null, null ];
+                [ $selectedBranches, $selectedAuthors, $selectedBook ] = [ null, null, null ];
                 if (isset($_GET['selected_id'])):
                     $selectedBook = postgreQuery('SELECT * FROM public."Books" WHERE book_id = '.$_GET['selected_id'])[0];
                     $selectedBranches = postgreQuery('SELECT DISTINCT public."StoreBranches".branch_id, public."StoreBranches"."address", public."Books_StoreBranches"."stock" FROM public."StoreBranches"
@@ -76,15 +76,20 @@
                     echo ($index+1 < count($selectedAuthors)) ? ", " : "";
                 endforeach ?>
             </h5>
-            <p>
+            <p class="mb-1">
                 Tanggal terbit: <?php echo $selectedBook['published_year'] ?>
             </p>
+            <p class="mb-3">
+                Harga: Rp<?php echo $selectedBook['price'] ?>,00
+            </p>
             <h6>Stok buku dalam cabang:</h6>
-            <div style="overflow: scroll; width: 100%; height:40vh;">
+            <div style="overflow: scroll; width: 100%; height:35vh;">
                 <table class="table table-hover table-sm">
                     <tbody>
-                        <?php 
+                        <?php
+                            $totalStock = 0;
                             foreach ($selectedBranches as $index => $branch):
+                                $totalStock += (int)$branch['stock'];
                                 ?>
                         <tr>
                             <!-- <td scope="row"><?= $index + 1 ?></td> -->
@@ -95,6 +100,7 @@
                     </tbody>
                 </table>
             </div>
+            <p>total: <?php echo $totalStock ?></p>
             <?php endif; endif; ?>
         </div>
     </div>

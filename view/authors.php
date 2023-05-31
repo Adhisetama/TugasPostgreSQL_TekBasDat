@@ -22,13 +22,13 @@
 
     <ul class="nav nav-tabs">
     <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="#">Cabang Toko</a>
+        <a class="nav-link" href="./">Cabang Toko</a>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="./books.php">Daftar Buku</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="./authors.php">Daftar Penulis</a>
+        <a class="nav-link active" aria-current="page" href="#">Daftar Penulis</a>
     </li>
     </ul>
 
@@ -38,15 +38,15 @@
                 <table class="table table-hover mt-4">
                     <tbody>
                         <?php 
-                            $storeBranches = postgreQuery('SELECT * FROM public."StoreBranches"');
+                            $storeBranches = postgreQuery('SELECT * FROM public."Authors"');
                             foreach ($storeBranches as $index => $row):
                         ?>
                         <tr>
                             <th scope="row"><?= $index + 1 ?></th>
-                            <td><?= substr($row['address'], 2, -2) ?></td>
-                            <td><?= substr($row['phone'], 1, -1) ?></td>
+                            <td><?= substr($row['name'], 2, -2) ?></td>
+                            <td><?= strtok($row['birthdate'], '-') ?></td>
                             <td>
-                                <a href="?selected_id=<?= $row['branch_id'] ?>"><button type="button" class="btn btn-primary">view</button></a>
+                                <a href="?selected_id=<?= $row['author_id'] ?>"><button type="button" class="btn btn-primary">view</button></a>
                             </td>
                         </tr>
                         <?php endforeach ?>
@@ -58,35 +58,25 @@
 
         <div class="col-5">
             <?php
-                [ $selectedBranch, $selectedStaffs, $selectedBooks ] = [ null, null, null ];
+                [ $selectedAuthor, $selectedBooks ] = [ null, null ];
                 if (isset($_GET['selected_id'])):
-                    $selectedBranch = postgreQuery('SELECT * FROM public."StoreBranches" WHERE branch_id = '.$_GET['selected_id'])[0];
-                    $selectedStaffs = postgreQuery('SELECT * FROM public."Staffs" WHERE "FK_branch_id" = '.$_GET['selected_id']);
-                    $selectedBooks  = postgreQuery('SELECT DISTINCT public."Books".book_title, public."Books_StoreBranches"."stock" FROM public."Books"
-                                                        JOIN public."Books_StoreBranches" ON public."Books".book_id=public."Books_StoreBranches"."FK_book_id"
-                                                        JOIN public."StoreBranches" ON public."Books_StoreBranches"."FK_branch_id"='.$_GET['selected_id']);
-                    if ($selectedBranch && $selectedStaffs && $selectedBooks):
+                    $selectedAuthor = postgreQuery('SELECT * FROM public."Authors" WHERE author_id = '.$_GET['selected_id'])[0];
+                    $selectedBooks = postgreQuery('SELECT public."Books".*
+                                                        FROM public."Books"
+                                                        WHERE public."Books".book_id IN (
+                                                            SELECT public."Authors_Books"."FK_book_id"
+                                                            FROM public."Authors_Books"
+                                                            WHERE public."Authors_Books"."FK_author_id" = '.$_GET['selected_id']
+                                                        .')');
+                    // $selectedBooks  = postgreQuery('SELECT DISTINCT public."Books".book_title, public."Books".published_year FROM public."Books"
+                    //                                     JOIN public."Authors_Books" ON public."Authors_Books"."FK_book_id"=public."Books".book_id
+                    //                                     JOIN public."Authors" ON public."Authors"."author_id"='.$_GET['selected_id']);
+                    if ($selectedAuthor):
                         # olah data
-                        $selectedBranch['address'] = substr($selectedBranch['address'], 2, -2);
-                        $selectedBranch['phone'] = substr($selectedBranch['phone'], 1, -1);
-                        $selectedBranch['city'] = strtok($selectedBranch['address'], ':');
-                        $selectedBranch['address'] = substr($selectedBranch['address'], strlen($selectedBranch['city']) + 2);
             ?>
-            <h4 class="mt-3">Cabang <?php echo $selectedBranch['city'] ?></h4>
-            <p><?php echo $selectedBranch['address'] ?></p>
-            <p>
-                Staffs:
-                <span>
-                    <?php 
-                    $staffCount = count($selectedStaffs);
-                    foreach($selectedStaffs as $index => $staff):
-                        echo substr($staff['name'], 2, -2);
-                        echo ($index + 1 != $staffCount) ? ", " : ".";
-                        endforeach
-                        ?>
-                </span>
-            </p>
-            <h6>Buku tersedia dalam cabang:</h6>
+            <h3 class="mt-3"><?php echo substr($selectedAuthor['name'], 2, -2) ?></h4>
+            <p>Lahir: <?php echo $selectedAuthor['birthdate'] ?></p>
+            <h6>Buku yang ditulis:</h6>
             <div style="overflow: scroll; width: 100%; height:40vh;">
                 <table class="table table-hover table-sm">
                     <tbody>
@@ -96,7 +86,7 @@
                         <tr>
                             <!-- <td scope="row"><?= $index + 1 ?></td> -->
                             <td><?= substr($book['book_title'], 1, -1) ?></td>
-                            <td><?= $book['stock'] ?></td>
+                            <td><?= strtok($book['published_year'], '-') ?></td>
                         </tr>
                         <?php endforeach ?>
                     </tbody>
