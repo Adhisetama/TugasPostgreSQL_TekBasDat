@@ -8,12 +8,12 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'> 
 
     <title>Hello, world!</title>
   </head>
   <body style="height: 100%; width: 100%; box-sizing: border-box;">
   <div class="container">
-
     
     <h1 class="mt-4 mb-3">
         <img src="https://i.ibb.co/X87dZV7/croppedbook.png" alt="croppedbook" style="height:70px; width:70px;"/>
@@ -27,8 +27,11 @@
     <li class="nav-item">
         <a class="nav-link" href="./books.php">Daftar Buku</a>
     </li>
-    <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="#">Daftar Penulis</a>
+    <li class="nav-item" style="position: relative">
+        <a href="./../edit/authors.php">
+            <i class='fa fa-edit' style="position:absolute; top:-7px; right:-7px; background-color:red; color:white; height:22px; width:22px; border-radius:4px; text-align:center; line-height:22px"></i>
+        </a>
+        <a class="nav-link active" aria-current="page">Daftar Penulis</a>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="./staffs.php">Daftar Staff</a>
