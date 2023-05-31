@@ -30,6 +30,9 @@
     <li class="nav-item">
         <a class="nav-link active" aria-current="page" href="#">Daftar Penulis</a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link" href="./staffs.php">Daftar Staff</a>
+    </li>
     </ul>
 
     <div class="container-fluid" style="height: 100%;">
