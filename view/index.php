@@ -1,4 +1,4 @@
-<?php require_once __DIR__ . '/dbConnection.php' ?>
+<?php require_once __DIR__ . '/../modules/dbConnection.php' ?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -22,13 +22,13 @@
 
     <ul class="nav nav-tabs">
     <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="#">Cabang Toko</a>
+        <a class="nav-link active" aria-current="page" href="">Cabang Toko</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="#">Daftar Buku</a>
+        <a class="nav-link" href="./books.php">Daftar Buku</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="#">Daftar Penulis</a>
+        <a class="nav-link" href="./authors.php">Daftar Penulis</a>
     </li>
     </ul>
 
@@ -53,22 +53,58 @@
                     </tbody>
                 </table>
             </div>
-            <div class="col-5">
+
+
+
+        <div class="col-5">
             <?php
                 [ $selectedBranch, $selectedStaffs, $selectedBooks ] = [ null, null, null ];
-                if (isset($_GET['selected_id'])) {
-                    $selectedBranch = postgreQuery('SELECT * FROM public."StoreBranches" WHERE branch_id = '.$_GET['selected_id']);
+                if (isset($_GET['selected_id'])):
+                    $selectedBranch = postgreQuery('SELECT * FROM public."StoreBranches" WHERE branch_id = '.$_GET['selected_id'])[0];
                     $selectedStaffs = postgreQuery('SELECT * FROM public."Staffs" WHERE "FK_branch_id" = '.$_GET['selected_id']);
-                    $selectedBooks  = postgreQuery('SELECT public."Books".* FROM public."Books"
+                    $selectedBooks  = postgreQuery('SELECT DISTINCT public."Books".book_title, public."Books_StoreBranches"."stock" FROM public."Books"
                                                         JOIN public."Books_StoreBranches" ON public."Books".book_id=public."Books_StoreBranches"."FK_book_id"
                                                         JOIN public."StoreBranches" ON public."Books_StoreBranches"."FK_branch_id"='.$_GET['selected_id']);
-                }
-                if ($selectedBranch && $selectedStaffs && $selectedBooks):
+                    if ($selectedBranch && $selectedStaffs && $selectedBooks):
+                        # olah data
+                        $selectedBranch['address'] = substr($selectedBranch['address'], 2, -2);
+                        $selectedBranch['phone'] = substr($selectedBranch['phone'], 1, -1);
+                        $selectedBranch['city'] = strtok($selectedBranch['address'], ':');
+                        $selectedBranch['address'] = substr($selectedBranch['address'], strlen($selectedBranch['city']) + 2);
             ?>
-            
-            <?php endif ?>
+            <h4 class="mt-3">Cabang <?php echo $selectedBranch['city'] ?></h4>
+            <p><?php echo $selectedBranch['address'] ?></p>
+            <p>
+                Staffs:
+                <span>
+                    <?php 
+                    $staffCount = count($selectedStaffs);
+                    foreach($selectedStaffs as $index => $staff):
+                        echo substr($staff['name'], 2, -2);
+                        echo ($index + 1 != $staffCount) ? ", " : ".";
+                        endforeach
+                        ?>
+                </span>
+            </p>
+            <h6>Buku tersedia dalam cabang:</h6>
+            <div style="overflow: scroll; width: 100%; height:40vh;">
+                <table class="table table-hover table-sm">
+                    <tbody>
+                        <?php 
+                            foreach ($selectedBooks as $index => $book):
+                                ?>
+                        <tr>
+                            <!-- <td scope="row"><?= $index + 1 ?></td> -->
+                            <td><?= substr($book['book_title'], 1, -1) ?></td>
+                            <td><?= $book['stock'] ?></td>
+                        </tr>
+                        <?php endforeach ?>
+                    </tbody>
+                </table>
             </div>
+            <?php endif; endif; ?>
         </div>
+    </div>
     </div>
 
     <!-- Optional JavaScript -->
