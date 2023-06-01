@@ -13,6 +13,7 @@
     <title>Hello, world!</title>
   </head>
   <body style="height: 100%; width: 100%; box-sizing: border-box;">
+
   <div class="container">
     
     <h1 class="mt-4 mb-3">
@@ -102,6 +103,12 @@
         </div>
     </div>
     </div>
+
+    <!-- jika page hasil redirect dari /edit/query.php -->
+    <?php if (isset($_POST['is-success'])) {
+        $msg = $_POST['is-success'] ? "Sukses mengedit data." : "Edit data gagal.";
+        echo "<script>alert('$msg')</script>";
+    } ?>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

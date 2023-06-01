@@ -13,6 +13,7 @@
     <title>Hello, world!</title>
   </head>
   <body style="height: 100%; width: 100%; box-sizing: border-box;">
+
   <div class="container">
     <?php 
         // fetch data
