@@ -3,7 +3,8 @@ note: konfigurasi database dapat diubah di file config.json
 Aplikasi untuk view dan edit tabel relasi dalam postgreSQL. App ini dibuat karena
 tugas yang diberikan oleh Bapak Guntur Dharma Putra, S.T., M.Sc.
 
-App ini berinteraksi dengan database postgreSQL dengan konfigurasi ERD tabel terlampir
+App ini berinteraksi dengan database postgreSQL dengan konfigurasi ERD tabel terlampir di bawah:
+![image](https://github.com/Adhisetama/TugasPostgreSQL_TekBasDat/assets/84426406/07d0f349-ac22-4468-a6f7-eecb3732d297)
 
 paths:
 
