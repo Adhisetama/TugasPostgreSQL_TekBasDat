@@ -74,10 +74,12 @@
             ?>
             <h3 class="mt-3"><?php echo substr($selectedBook['book_title'], 1, -1) ?></h4>
             <h5 class="mb-4">
-                <?php foreach ($selectedAuthors as $index => $author):
-                    echo substr($author['name'], 2, -2);
+                <?php foreach ($selectedAuthors as $index => $author): ?>
+                <a href="./authors.php?selected_id=<?= $author['author_id'] ?>"><?php echo substr($author['name'], 2, -2) ?></a>
+                <?php
                     echo ($index+1 < count($selectedAuthors)) ? ", " : "";
-                endforeach ?>
+                    endforeach
+                    ?>
             </h5>
             <p class="mb-1">
                 Tanggal terbit: <?php echo $selectedBook['published_year'] ?>
@@ -96,7 +98,11 @@
                                 ?>
                         <tr>
                             <!-- <td scope="row"><?= $index + 1 ?></td> -->
-                            <td><?= strtok(substr($branch['address'], 2, -2), ':') ?></td>
+                            <td>
+                                <a href="./index.php?selected_id=<?= $branch['branch_id'] ?>">
+                                    <?= strtok(substr($branch['address'], 2, -2), ':') ?>
+                                </a>
+                            </td>
                             <td><?= $branch['stock'] ?></td>
                         </tr>
                         <?php endforeach ?>

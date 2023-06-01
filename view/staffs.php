@@ -47,16 +47,20 @@
                     </thead>
                     <tbody>
                         <?php 
-                            $storeBranches = postgreQuery('SELECT public."Staffs".*, public."StoreBranches"."address"
+                            $storeBranches = postgreQuery('SELECT public."Staffs".*, public."StoreBranches"."address", public."StoreBranches"."branch_id"
                                                                 FROM public."Staffs"
                                                                 JOIN public."StoreBranches" ON public."Staffs"."FK_branch_id"=public."StoreBranches".branch_id');
                             foreach ($storeBranches as $index => $row):
                         ?>
                         <tr>
-                            <th scope="row"><?= $index + 1 ?></th>
+                            <th scope="row" id="<?= $row['staff_id'] ?>" ><?= $index + 1 ?></th>
                             <td><?= substr($row['name'], 2, -2) ?></td>
                             <td><?= $row['birthdate'] ?></td>
-                            <td><?= strtok(substr($row['address'],2,-2), ':') ?></td>
+                            <td>
+                                <a href="./index.php?selected_id=<?= $row['branch_id'] ?>">
+                                    <?= strtok(substr($row['address'],2,-2), ':') ?>
+                                </a>
+                            </td>
                         </tr>
                         <?php endforeach ?>
                     </tbody>

@@ -65,7 +65,7 @@
                 if (isset($_GET['selected_id'])):
                     $selectedBranch = postgreQuery('SELECT * FROM public."StoreBranches" WHERE branch_id = '.$_GET['selected_id'])[0];
                     $selectedStaffs = postgreQuery('SELECT * FROM public."Staffs" WHERE "FK_branch_id" = '.$_GET['selected_id']);
-                    $selectedBooks  = postgreQuery('SELECT DISTINCT public."Books".book_title, public."Books_StoreBranches"."stock" FROM public."Books"
+                    $selectedBooks  = postgreQuery('SELECT DISTINCT public."Books".book_title, public."Books".book_id, public."Books_StoreBranches"."stock" FROM public."Books"
                                                         JOIN public."Books_StoreBranches" ON public."Books".book_id=public."Books_StoreBranches"."FK_book_id"
                                                         JOIN public."StoreBranches" ON public."Books_StoreBranches"."FK_branch_id"='.$_GET['selected_id']);
                     if ($selectedBranch && $selectedStaffs && $selectedBooks):
@@ -82,11 +82,14 @@
                 <span>
                     <?php 
                     $staffCount = count($selectedStaffs);
-                    foreach($selectedStaffs as $index => $staff):
-                        echo substr($staff['name'], 2, -2);
+                    foreach($selectedStaffs as $index => $staff): ?>
+                        <a href="./staffs.php#<?= $staff['staff_id'] ?>">
+                            <?php echo substr($staff['name'], 2, -2); ?>
+                        </a>
+                    <?php
                         echo ($index + 1 != $staffCount) ? ", " : ".";
-                        endforeach
-                        ?>
+                    endforeach
+                    ?>
                 </span>
             </p>
             <h6>Buku tersedia dalam cabang:</h6>
@@ -98,7 +101,11 @@
                                 ?>
                         <tr>
                             <!-- <td scope="row"><?= $index + 1 ?></td> -->
-                            <td><?= substr($book['book_title'], 1, -1) ?></td>
+                            <td>
+                                <a href="./books.php?selected_id=<?= $book['book_id'] ?>">
+                                    <?= substr($book['book_title'], 1, -1) ?>
+                                </a>
+                            </td>
                             <td><?= $book['stock'] ?></td>
                         </tr>
                         <?php endforeach ?>

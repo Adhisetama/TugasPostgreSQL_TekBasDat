@@ -45,15 +45,15 @@
                 <table class="table table-hover mt-4">
                     <tbody>
                         <?php 
-                            $storeBranches = postgreQuery('SELECT * FROM public."Authors"');
-                            foreach ($storeBranches as $index => $row):
+                            $authors = postgreQuery('SELECT * FROM public."Authors"');
+                            foreach ($authors as $index => $author):
                         ?>
                         <tr>
                             <th scope="row"><?= $index + 1 ?></th>
-                            <td><?= substr($row['name'], 2, -2) ?></td>
-                            <td><?= strtok($row['birthdate'], '-') ?></td>
+                            <td><?= substr($author['name'], 2, -2) ?></td>
+                            <td><?= strtok($author['birthdate'], '-') ?></td>
                             <td>
-                                <a href="?selected_id=<?= $row['author_id'] ?>"><button type="button" class="btn btn-primary">view</button></a>
+                                <a href="?selected_id=<?= $author['author_id'] ?>"><button type="button" class="btn btn-primary">view</button></a>
                             </td>
                         </tr>
                         <?php endforeach ?>
@@ -92,7 +92,7 @@
                                 ?>
                         <tr>
                             <!-- <td scope="row"><?= $index + 1 ?></td> -->
-                            <td><?= substr($book['book_title'], 1, -1) ?></td>
+                            <td><a href="./books.php?selected_id=<?= $book['book_id'] ?>"><?= substr($book['book_title'], 1, -1) ?></a></td>
                             <td><?= strtok($book['published_year'], '-') ?></td>
                         </tr>
                         <?php endforeach ?>
