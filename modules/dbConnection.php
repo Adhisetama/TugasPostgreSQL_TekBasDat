@@ -1,12 +1,15 @@
 <?php
 
-$host = '127.0.0.1';
-$dbname = 'mydb';
-$user = 'azka';
-$password = 'demikunam123';
+// get $dbHost, $dbName, $dbUsername, $dbPassword from config.json
+[
+    'dbHost' => $dbHost,
+    'dbName' => $dbName,
+    'dbUsername' => $dbUsername,
+    'dbPassword' => $dbPassword,
+] = (array) json_decode(file_get_contents(__DIR__ . '/../config.json'));
 
 try {
-    $pdo = new PDO("pgsql:host=$host;dbname=$dbname", $user, $password);
+    $pdo = new PDO("pgsql:host=$dbHost;dbname=$dbName", $dbUsername, $dbPassword);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
     echo 'Connection failed: ' . $e->getMessage();
@@ -34,7 +37,7 @@ function postgreQueryTCL($multipleQueryString) {
         $pdo->commit();                     // COMMIT;
         
         return true;
-        
+
     } catch (PDOException $e) {
         $pdo->rollBack();                   // ROLLBACK;
         echo "Error: " . $e->getMessage();

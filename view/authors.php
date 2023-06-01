@@ -11,6 +11,8 @@
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'> 
 
     <title>Hello, world!</title>
+    <link rel="icon" type="image/x-icon" href="https://i.ibb.co/X87dZV7/croppedbook.png">
+
   </head>
   <body style="height: 100%; width: 100%; box-sizing: border-box;">
 
