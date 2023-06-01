@@ -19,8 +19,7 @@ Struktur directory:
 |                         // juga berisi function untuk query
 |-- edit
 |    +-- authors.php  // page untuk mengupdate tabel Authors pada DB
-|    +-- query.php    // page untuk melakukan query ke DB dari query string
-|                     // yang dihasilkan dari form update
+|    +-- query.php    // page untuk melakukan query ke DB dari query string yang dihasilkan dari form update
 |                     // (method post dikirimkan ke page ini)
 +-- assets
      +-- icon.png     // icon
