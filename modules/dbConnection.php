@@ -24,4 +24,22 @@ function postgreQuery($queryString, $hasReturnValue=true) {
     }
 }
 
+function postgreQueryTCL($multipleQueryString) {
+    global $pdo;
+    try {
+        
+        
+        $pdo->beginTransaction();           // BEGIN TRANSACTION;
+        $pdo->exec($multipleQueryString);   // ...
+        $pdo->commit();                     // COMMIT;
+        
+        return true;
+        
+    } catch (PDOException $e) {
+        $pdo->rollBack();                   // ROLLBACK;
+        echo "Error: " . $e->getMessage();
+        return false;
+    }
+}
+
 ?>

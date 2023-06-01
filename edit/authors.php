@@ -69,10 +69,10 @@
                 </table>
             </div>
 
-            <div class="col-4 mt-3" style="font-family: monospace; font-size: 0.5rem" id="tes2">
-                <input type="hidden" name="redirect" value="../view/authors.php">
-                <textarea name="queryarray" id="queryarray" style="display: none" form="editauth"></textarea>
-                <textarea name="querystring" id="querystring" style="font-family: monospace; font-size: 0.5rem; width:100%; height:100%" form="editauth"></textarea>
+            <div class="col-6 mt-3" id="tes2">
+                <input type="hidden" name="redirect-to" value="../view/authors.php">
+                <textarea name="query-string" id="query-string" style="display: none" form="editauth"></textarea>
+                <textarea readonly id="dummy-query" style="font-family: monospace; font-size: 0.75rem; width:100%; height:100%"></textarea>
             </div>
         </div>
     </div>
@@ -84,7 +84,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     
     <script>
-        const queryArray = [];
+        let segoGoreng = String();
         const BIJI = { // if you trying to understand this code, just... dont.
             data: {},
             detectChange($id) { // return false jika g berubah, true jika di delete, assoc array jika berubah
@@ -125,7 +125,7 @@
                 for (const id in BIJI.data) {
                     const rowQuery = BIJI.buildRowQuery(id)
                     if (rowQuery) {
-                        queryArray.push(rowQuery) // the real query to passed in pdo->prepare()
+                        segoGoreng += rowQuery // the real query to passed in pdo->prepare()
                         queryString += `\n${rowQuery.replace(/{|}/g, '')}\n`
                     }
                 }
@@ -134,11 +134,11 @@
         }
 
         function printQuery(queryString) {
-            const blin = document.getElementById("querystring")
-            const blad = document.getElementById("queryarray")
-            queryArray.length = 0
+            const blin = document.getElementById("dummy-query")
+            const blad = document.getElementById("query-string")
+            segoGoreng = String()
             blin.value = BIJI.buildQuery()
-            blad.value = JSON.stringify(queryArray)
+            blad.value = JSON.stringify(segoGoreng)
         }
 
         originalData.forEach(e => {

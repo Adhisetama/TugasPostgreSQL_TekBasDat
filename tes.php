@@ -1,6 +1,6 @@
 <?php
 
-$host = 'S172.190.38.198';
+$host = '172.190.38.198';
 $dbname = 'tbdproject';
 $user = 'adhityabayu';
 $password = 'basisdata123';
