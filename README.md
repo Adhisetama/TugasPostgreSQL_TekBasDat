@@ -9,18 +9,19 @@ App ini berinteraksi dengan database postgreSQL dengan konfigurasi ERD tabel ter
 Struktur directory:
 ```
 +-- view
-|    +-- index.php    // tabel StoreBranches
-|    +-- books.php    // tabel Books
-|    +-- staffs.php   // tabel Staffs
-|    +-- authors.php  // tabel Authors
+|    +-- index.php    // page untuk view tabel StoreBranches
+|    +-- books.php    // page untuk view tabel Books
+|    +-- staffs.php   // page untuk view tabel Staffs
+|    +-- authors.php  // page untuk view tabel Authors
 |
 +-- modules
 |    +-- dbConnection.php // file untuk membuat koneksi ke database
 |                         // juga berisi function untuk query
 |-- edit
-|    +-- authors.php  // UI untuk mengupdate tabel Authors pada DB
+|    +-- authors.php  // page untuk mengupdate tabel Authors pada DB
 |    +-- query.php    // page untuk melakukan query ke DB dari query string
 |                     // yang dihasilkan dari form update
+|                     // (method post dikirimkan ke page ini)
 +-- assets
      +-- icon.png     // icon
 ```
