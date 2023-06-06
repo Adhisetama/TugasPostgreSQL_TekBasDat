@@ -6,6 +6,9 @@ tugas yang diberikan oleh Bapak Guntur Dharma Putra, S.T., M.Sc.
 App ini berinteraksi dengan database postgreSQL dengan konfigurasi ERD tabel terlampir di bawah:
 ![image](https://github.com/Adhisetama/TugasPostgreSQL_TekBasDat/assets/84426406/07d0f349-ac22-4468-a6f7-eecb3732d297)
 
+Extract code ini dalam folder baru di dalam folder htdocs pada instalasi XAMPP, kemudian buka
+localhost di browser mengarah ke folder tersebut.
+
 Struktur directory:
 ```
 +-- view
